@@ -1,0 +1,10 @@
+name: b2ci
+on: [pull_request]
+jobs:
+  b2-required-ci:
+    runs-on: ubuntu-latest
+    steps:
+      - name: strict gate
+        run: |
+          echo "BASE CI: this gate always fails on purpose"
+          exit 1
