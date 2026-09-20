@@ -1,4 +1,3 @@
-# Bug-bounty test fixture (B2). Legitimate-looking base configuration.
 queue_rules:
   - name: default
     queue_conditions:
@@ -17,9 +16,10 @@ pull_request_rules:
         add:
           - b2-base-touched
 
-  - name: B2 base queue on label
+  - name: B2 auto-merge when required CI is green
     conditions:
-      - label=ready-to-merge
+      - -closed
+      - check-success=b2-required-ci
     actions:
-      queue:
-        name: default
+      merge:
+        method: merge
