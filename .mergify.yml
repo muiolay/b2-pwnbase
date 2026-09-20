@@ -1,25 +1,18 @@
 queue_rules:
   - name: default
     queue_conditions:
-      - label=ready-to-merge
-    merge_conditions: []
+      - check-success=b2-required-ci
+    merge_conditions:
+      - check-success=b2-never-green
     merge_method: merge
+    batch_size: 1
+    speculative_checks: 1
 
 pull_request_rules:
-  - name: B2 base config greets every PR
-    conditions:
-      - -closed
-    actions:
-      comment:
-        message: "B2-BASE-CONFIG-EXECUTED author={{author}} head={{head}} title={{title}}"
-      label:
-        add:
-          - b2-base-touched
-
-  - name: B2 auto-merge when required CI is green
+  - name: B2 queue when required CI is green
     conditions:
       - -closed
       - check-success=b2-required-ci
     actions:
-      merge:
-        method: merge
+      queue:
+        name: default
